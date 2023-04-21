@@ -95,6 +95,14 @@ public class Site {
     }
 
 
+    // Checks if currentPage has child nodes
+    public void checkHasChildPages() throws NoChildPageException {
+        if (this.currentPage.Down == null) {
+            throw new NoChildPageException();
+        }
+    }
+
+
     //  toString - Allows output of the current page and its linked pages below
     public String toString() {
         StringBuilder siteDetails = new StringBuilder();

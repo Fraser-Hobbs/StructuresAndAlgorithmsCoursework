@@ -27,9 +27,28 @@ public class SiteTest {
                             System.out.println("Page Already Exists!");
                         }
                     }
-                    case 2 -> System.out.println("Move Up");
-                    case 3 -> System.out.println("Move Down");
-                    case 4 -> System.out.println("Display Current Page");
+                    case 2 -> {
+                        try {
+                            site.moveUp();
+                        } catch (Site.NoParentPageException e) {
+                            System.out.println("No Page Above.");
+                        }
+                    }
+                    case 3 -> {
+                        try {
+                            site.checkHasChildPages();
+                            System.out.println(site);
+                            site.moveDown(Input.getString("Enter Name To Go To: "));
+
+                        } catch (Site.NoChildPageException e) {
+                            System.out.println("No Pages To Move Down To.");
+                        } catch (Site.PageNameNotUniqueException e) {
+                            System.out.println("Page Not Found!");
+                        }
+
+
+                    }
+                    case 4 -> System.out.println(site.getCurrentPage());
                     case 5 -> System.out.println(site);
                     // Default to ensure user selects a valid option
                     default -> System.out.println("Please Enter a value between 0 - " + (options.length - 1));
