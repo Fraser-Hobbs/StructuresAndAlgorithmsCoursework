@@ -2,8 +2,12 @@
 public class SiteTest {
     public static void main(String[] args) {
 
+        //  Create New Site Object
+        Site site = new Site();
+
+
         // Option List For The CLI Menu
-        String[] options = {"Option 0", "Option 1", "Option 2", "Option 3", "Option 4", "Option 5"};
+        String[] options = {"Quit", "Add Page", "Move Up", "Move Down", "Display Current Page", "Display Home Page"};
 
         // Holds the option the user selects (initialised as -1 to prevent auto menu selection)
         int selectedOption = -1;
@@ -16,11 +20,11 @@ public class SiteTest {
                 // Switch statement based of users input
                 switch (selectedOption) {
                     case 0 -> System.out.println("Exiting Program...");
-                    case 1 -> System.out.println("Option 1");
-                    case 2 -> System.out.println("Option 2");
-                    case 3 -> System.out.println("Option 3");
-                    case 4 -> System.out.println("Option 4");
-                    case 5 -> System.out.println("Option 5");
+                    case 1 -> site.addPage(Input.getString("Enter New Page Name: "));
+                    case 2 -> System.out.println("Move Up");
+                    case 3 -> System.out.println("Move Down");
+                    case 4 -> System.out.println("Display Current Page");
+                    case 5 -> System.out.println(site);
                     // Default to ensure user selects a valid option
                     default -> System.out.println("Please Enter a value between 0 - " + (options.length - 1));
                 }
