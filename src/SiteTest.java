@@ -20,7 +20,13 @@ public class SiteTest {
                 // Switch statement based of users input
                 switch (selectedOption) {
                     case 0 -> System.out.println("Exiting Program...");
-                    case 1 -> site.addPage(Input.getString("Enter New Page Name: "));
+                    case 1 -> {
+                        try {
+                            site.addPage(Input.getString("Enter New Page Name: "));
+                        } catch (Site.PageNameNotUniqueException e) {
+                            System.out.println("Page Already Exists!");
+                        }
+                    }
                     case 2 -> System.out.println("Move Up");
                     case 3 -> System.out.println("Move Down");
                     case 4 -> System.out.println("Display Current Page");

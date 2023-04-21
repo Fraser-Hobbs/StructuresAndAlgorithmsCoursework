@@ -1,3 +1,5 @@
+@SuppressWarnings("ALL") // Used To Hide IDE Warnings / Recommendations
+
 public class Site {
 
     //  Declare Homepage Node
@@ -9,21 +11,35 @@ public class Site {
         this.homePage = new PageNode("Home");
     }
 
-// addPage allows new PageNodes to be added to the site
-    public void addPage(String newPageName) {
-        PageNode newPage = new PageNode(newPageName);
-        newPage.Up = this.homePage;
-        if (this.homePage.Down == null) {
-            this.homePage.Down = newPage;
-        } else {
-            PageNode page = this.homePage.Down;
-            while (page.Across != null) {
-                    page = page.Across;
-            }
-
-            page.Across = newPage;
-        }
+// addPage allows new PageNodes to be added to the site (Checks if PageName Already exist and uses exceptions)
+public void addPage(String newPageName) throws PageNameNotUniqueException {
+    if (newPageName.equalsIgnoreCase(this.homePage.Name)) {
+        throw new PageNameNotUniqueException();
     }
+    PageNode newPage = new PageNode(newPageName);
+    newPage.Up = this.homePage;
+    if (this.homePage.Down == null) {
+        this.homePage.Down = newPage;
+    } else {
+        PageNode page = this.homePage.Down;
+        if (newPage.Name.equalsIgnoreCase(page.Name)) {
+            throw new PageNameNotUniqueException();
+        }
+        while (page.Across != null) {
+            if (newPage.Name.equalsIgnoreCase(page.Name)) {
+                throw new PageNameNotUniqueException();
+            } else {
+                page = page.Across;
+            }
+        }
+        if (page.Across == null) {
+            if (newPage.Name.equalsIgnoreCase(page.Name)) {
+                throw new PageNameNotUniqueException();
+            }
+        }
+        page.Across = newPage;
+    }
+}
 
 
     //  toString - Allows output of the current page and its linked pages below
@@ -42,11 +58,15 @@ public class Site {
         }
         return siteDetails.toString();
     }
+//----------------------------------------------------------------------------------------------------------------------
+//  Exceptions
+  public static class PageNameNotUniqueException extends Exception {
+  }
 
 
 /*----------------------------------------------------------------------------------------------------------------------
-    Page Node
-    PageNode Class which holds the information for each node within the site
+  Page Node
+  PageNode Class which holds the information for each node within the site
 */
     private static class PageNode {
         //  Variable Initialization
@@ -63,3 +83,4 @@ public class Site {
     }
 
 }
+
