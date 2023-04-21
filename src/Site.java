@@ -2,44 +2,97 @@
 
 public class Site {
 
-    //  Declare Homepage Node
+    //  Declare Homepage & CurrentPage PageNodes
     private PageNode homePage;
+    private PageNode currentPage;
 
     //  Site Constructor
     public Site() {
-        //  Initialise Homepage with default home node
+        //  Initialise Homepage with default home node and set currentPage to the homePage node
         this.homePage = new PageNode("Home");
+        this.currentPage = homePage;
     }
 
-// addPage allows new PageNodes to be added to the site (Checks if PageName Already exist and uses exceptions)
-public void addPage(String newPageName) throws PageNameNotUniqueException {
-    if (newPageName.equalsIgnoreCase(this.homePage.Name)) {
-        throw new PageNameNotUniqueException();
-    }
-    PageNode newPage = new PageNode(newPageName);
-    newPage.Up = this.homePage;
-    if (this.homePage.Down == null) {
-        this.homePage.Down = newPage;
-    } else {
-        PageNode page = this.homePage.Down;
-        if (newPage.Name.equalsIgnoreCase(page.Name)) {
+
+
+    //  addPage allows new PageNodes to be added to the site (Checks if PageName Already exist and uses exceptions)
+    public void addPage(String newPageName) throws PageNameNotUniqueException {
+        if (newPageName.equalsIgnoreCase(this.homePage.Name)) {
             throw new PageNameNotUniqueException();
         }
-        while (page.Across != null) {
+        PageNode newPage = new PageNode(newPageName);
+        newPage.Up = this.homePage;
+        if (this.homePage.Down == null) {
+            this.homePage.Down = newPage;
+        } else {
+            PageNode page = this.homePage.Down;
             if (newPage.Name.equalsIgnoreCase(page.Name)) {
                 throw new PageNameNotUniqueException();
-            } else {
+            }
+            while (page.Across != null) {
+                if (newPage.Name.equalsIgnoreCase(page.Name)) {
+                    throw new PageNameNotUniqueException();
+                } else {
+                    page = page.Across;
+                }
+            }
+            if (page.Across == null) {
+                if (newPage.Name.equalsIgnoreCase(page.Name)) {
+                    throw new PageNameNotUniqueException();
+                }
+            }
+            page.Across = newPage;
+        }
+    }
+
+
+    // Allows Navigation of the site Upwards
+    public void moveUp() throws NoParentPageException {
+        if (this.currentPage == this.homePage) {
+            throw new NoParentPageException();
+        } else {
+            this.currentPage = this.currentPage.Up;
+        }
+    }
+
+
+    // Allows Navigation of the site Downwards by taking in a pageName to check if a page below matches the name
+    public void moveDown(String pageName) throws PageNameNotUniqueException {
+
+        PageNode page = this.currentPage.Down;
+        while (!pageName.equalsIgnoreCase(page.Name)) {
+            page = page.Across;
+            if (page == null) {
+                throw new PageNameNotUniqueException();
+            }
+        }
+        this.currentPage = page;
+        System.out.println("\n" + getCurrentPage());
+    }
+
+
+    //  getPage allows getting a selected page and its child PageNodes
+    public String getPage(PageNode selectedPage) {
+        StringBuilder siteDetails = new StringBuilder();
+
+        siteDetails.append(selectedPage.Name).append("\n");
+        if (selectedPage.Down == null) {
+            siteDetails.append(" has no links");
+        } else {
+            PageNode page = selectedPage.Down;
+            while (page != null) {
+                siteDetails.append(" ↳ ").append(page.Name).append("\n");
                 page = page.Across;
             }
         }
-        if (page.Across == null) {
-            if (newPage.Name.equalsIgnoreCase(page.Name)) {
-                throw new PageNameNotUniqueException();
-            }
-        }
-        page.Across = newPage;
+        return siteDetails.toString();
     }
-}
+
+
+    //  getCurrentPage uses the getPage method to return the current PageNode
+    public String getCurrentPage() {
+        return this.getPage(this.currentPage);
+    }
 
 
     //  toString - Allows output of the current page and its linked pages below
@@ -58,15 +111,17 @@ public void addPage(String newPageName) throws PageNameNotUniqueException {
         }
         return siteDetails.toString();
     }
+
+
 //----------------------------------------------------------------------------------------------------------------------
 //  Exceptions
-  public static class PageNameNotUniqueException extends Exception {
-  }
-
+    public static class PageNameNotUniqueException extends Exception {} // Exception for PageName already existing in site
+    public static class NoParentPageException extends Exception {} // Exception for if the selected PageNode has no Parent page
+    public static class NoChildPageException extends Exception {} // Exception for if the selected PageNode has no Children
 
 /*----------------------------------------------------------------------------------------------------------------------
-  Page Node
-  PageNode Class which holds the information for each node within the site
+   Page Node
+   PageNode Class which holds the information for each node within the site
 */
     private static class PageNode {
         //  Variable Initialization

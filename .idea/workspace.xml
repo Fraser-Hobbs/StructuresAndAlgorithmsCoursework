@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b12cc7b3-0688-4c0f-9efd-b6728e7f4e2e" name="Changes" comment="SiteTest Class:&#10; - filled out option list&#10; - added functionality to Option 1 &amp; 5&#10; - Created new site object&#10;&#10;&#10;Site Class:&#10; - added PageNode class&#10; - declared homePage &#10; - added Site Constructor&#10; - created addPage Method&#10; - created toString Method&#10;&#10;PageNode Class:&#10; - Created PageNode class&#10; - Created PageNode Constructor" />
+    <list default="true" id="b12cc7b3-0688-4c0f-9efd-b6728e7f4e2e" name="Changes" comment="SiteTest Class:&#10; - filled out option list&#10; - added functionality to Option 1 &amp; 5&#10; - Created new site object&#10;&#10;&#10;Site Class:&#10; - added PageNode class&#10; - declared homePage &#10; - added Site Constructor&#10; - created addPage Method&#10; - created toString Method&#10;&#10;PageNode Class:&#10; - Created PageNode class&#10; - Created PageNode Constructor">
+      <change beforePath="$PROJECT_DIR$/src/Site.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Site.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,7 +31,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false"
+    "WebServerToolWindowFactoryState": "false",
+    "settings.editor.selected.configurable": "project.propGUI"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -38,6 +41,9 @@
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>$USER_HOME$/.subversion</configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="b12cc7b3-0688-4c0f-9efd-b6728e7f4e2e" name="Changes" comment="" />
@@ -81,7 +87,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="main" />
+                        <option value="origin/main" />
                       </list>
                     </value>
                   </entry>
@@ -97,5 +103,9 @@
     <MESSAGE value="Renamed Main.java to SiteTest.java&#10;Created Site.java&#10;Added Input.java - Input library class&#10;&#10;Changes to SiteTest.java&#10;Created Menu System For Application using MenuPrint() and an array for the options." />
     <MESSAGE value="SiteTest Class:&#10; - filled out option list&#10; - added functionality to Option 1 &amp; 5&#10; - Created new site object&#10;&#10;&#10;Site Class:&#10; - added PageNode class&#10; - declared homePage &#10; - added Site Constructor&#10; - created addPage Method&#10; - created toString Method&#10;&#10;PageNode Class:&#10; - Created PageNode class&#10; - Created PageNode Constructor" />
     <option name="LAST_COMMIT_MESSAGE" value="SiteTest Class:&#10; - filled out option list&#10; - added functionality to Option 1 &amp; 5&#10; - Created new site object&#10;&#10;&#10;Site Class:&#10; - added PageNode class&#10; - declared homePage &#10; - added Site Constructor&#10; - created addPage Method&#10; - created toString Method&#10;&#10;PageNode Class:&#10; - Created PageNode class&#10; - Created PageNode Constructor" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
