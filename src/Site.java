@@ -17,29 +17,18 @@ public class Site {
 
     //  addPage allows new PageNodes to be added to the site (Checks if PageName Already exist and uses exceptions)
     public void addPage(String newPageName) throws PageNameNotUniqueException {
-        if (newPageName.equalsIgnoreCase(this.homePage.Name)) {
+        if (pageNodeExists(newPageName, homePage)) {
             throw new PageNameNotUniqueException();
         }
+
         PageNode newPage = new PageNode(newPageName);
-        newPage.Up = this.homePage;
-        if (this.homePage.Down == null) {
-            this.homePage.Down = newPage;
+        newPage.Up = this.currentPage;
+        if (this.currentPage.Down == null) {
+            this.currentPage.Down = newPage;
         } else {
-            PageNode page = this.homePage.Down;
-            if (newPage.Name.equalsIgnoreCase(page.Name)) {
-                throw new PageNameNotUniqueException();
-            }
+            PageNode page = this.currentPage.Down;
             while (page.Across != null) {
-                if (newPage.Name.equalsIgnoreCase(page.Name)) {
-                    throw new PageNameNotUniqueException();
-                } else {
-                    page = page.Across;
-                }
-            }
-            if (page.Across == null) {
-                if (newPage.Name.equalsIgnoreCase(page.Name)) {
-                    throw new PageNameNotUniqueException();
-                }
+                page = page.Across;
             }
             page.Across = newPage;
         }
@@ -100,6 +89,19 @@ public class Site {
         if (this.currentPage.Down == null) {
             throw new NoChildPageException();
         }
+    }
+
+
+    // pageNodeExists takes in a PageNode and a pageName and checks to see if the the pageName already exists
+    private boolean pageNodeExists(String pageName, PageNode node) {
+        if (node == null) {
+            return false;
+        }
+        if (pageName.equalsIgnoreCase(node.Name)) {
+            return true;
+        }
+        // Recursively Calls itself to search through all pageNodes below and Across
+        return pageNodeExists(pageName, node.Down) || pageNodeExists(pageName, node.Across);
     }
 
 
