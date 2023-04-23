@@ -7,7 +7,7 @@ public class SiteTest {
 
 
         // Option List For The CLI Menu
-        String[] options = {"Quit", "Add Page", "Move Up", "Move Down", "Display Current Page", "Display Home Page"};
+        String[] options = {"Quit", "Add Page", "Move Up", "Move Down", "Display Current Page", "Display Site Map"};
 
         // Holds the option the user selects (initialised as -1 to prevent auto menu selection)
         int selectedOption = -1;
@@ -37,16 +37,13 @@ public class SiteTest {
                     case 3 -> {
                         try {
                             site.checkHasChildPages();
-                            System.out.println(site);
+                            System.out.println(site.getCurrentPage());
                             site.moveDown(Input.getString("Enter Name To Go To: "));
-
                         } catch (Site.NoChildPageException e) {
                             System.out.println("No Pages To Move Down To.");
-                        } catch (Site.PageNameNotUniqueException e) {
+                        } catch (Site.PageNotFoundException e) {
                             System.out.println("Page Not Found!");
                         }
-
-
                     }
                     case 4 -> System.out.println(site.getCurrentPage());
                     case 5 -> System.out.println(site);

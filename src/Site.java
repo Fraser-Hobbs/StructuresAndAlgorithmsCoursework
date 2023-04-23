@@ -14,7 +14,6 @@ public class Site {
     }
 
 
-
     //  addPage allows new PageNodes to be added to the site (Checks if PageName Already exist and uses exceptions)
     public void addPage(String newPageName) throws PageNameNotUniqueException {
         if (pageNodeExists(newPageName, homePage)) {
@@ -46,16 +45,12 @@ public class Site {
 
 
     // Allows Navigation of the site Downwards by taking in a pageName to check if a page below matches the name
-    public void moveDown(String pageName) throws PageNameNotUniqueException {
-
-        PageNode page = this.currentPage.Down;
-        while (!pageName.equalsIgnoreCase(page.Name)) {
-            page = page.Across;
-            if (page == null) {
-                throw new PageNameNotUniqueException();
-            }
+    public void moveDown(String pageName) throws PageNotFoundException {
+        PageNode node = findPageNode(pageName, this.currentPage.Down);
+        if (node == null) {
+            throw new PageNotFoundException();
         }
-        this.currentPage = page;
+        this.currentPage = node;
         System.out.println("\n" + getCurrentPage());
     }
 
@@ -63,24 +58,48 @@ public class Site {
     //  getPage allows getting a selected page and its child PageNodes
     public String getPage(PageNode selectedPage) {
         StringBuilder siteDetails = new StringBuilder();
-
-        siteDetails.append(selectedPage.Name).append("\n");
-        if (selectedPage.Down == null) {
-            siteDetails.append(" has no links");
-        } else {
-            PageNode page = selectedPage.Down;
-            while (page != null) {
-                siteDetails.append(" ↳ ").append(page.Name).append("\n");
-                page = page.Across;
-            }
-        }
+        getPageRecursive(selectedPage, siteDetails, 0);
         return siteDetails.toString();
     }
 
 
-    //  getCurrentPage uses the getPage method to return the current PageNode
-    public String getCurrentPage() {
-        return this.getPage(this.currentPage);
+    private void getPageRecursive(PageNode selectedPage, StringBuilder siteDetails, int depth) {
+        for (int i = 0; i < depth; i++) {
+            siteDetails.append("  ");
+        }
+        if (selectedPage.Name.equalsIgnoreCase("home")) {
+            siteDetails.append(selectedPage.Name).append("\n");
+            if (selectedPage.Down == null) {
+                siteDetails.append("No Linked Pages").append("\n");
+            }
+
+        } else {
+            siteDetails.append("  ↳ ").append(selectedPage.Name).append("\n");
+        }
+
+        if (selectedPage.Down != null) {
+            PageNode page = selectedPage.Down;
+            while (page != null) {
+                getPageRecursive(page, siteDetails, depth + 1);
+                page = page.Across;
+            }
+        }
+    }
+
+
+    // findPageNode is used to recursively search through the tree structure for a PageNode with the matching pageName
+    private PageNode findPageNode(String pageName, PageNode node) {
+        if (node == null) {
+            return null;
+        }
+        if (node.Name.equalsIgnoreCase(pageName)) {
+            return node;
+        }
+        PageNode foundNode = findPageNode(pageName, node.Down);
+        if (foundNode == null) {
+            foundNode = findPageNode(pageName, node.Across);
+        }
+        return foundNode;
     }
 
 
@@ -105,21 +124,15 @@ public class Site {
     }
 
 
+    //  getCurrentPage uses the getPage method to return the current PageNode
+    public String getCurrentPage() {
+        return this.getPage(this.currentPage);
+    }
+
+
     //  toString - Allows output of the current page and its linked pages below
     public String toString() {
-        StringBuilder siteDetails = new StringBuilder();
-
-        siteDetails.append(this.homePage.Name).append("\n");
-        if (this.homePage.Down == null) {
-            siteDetails.append(" has no links");
-        } else {
-            PageNode page = this.homePage.Down;
-            while (page != null) {
-                siteDetails.append(" ↳ ").append(page.Name).append("\n");
-                page = page.Across;
-            }
-        }
-        return siteDetails.toString();
+        return this.getPage(this.homePage);
     }
 
 
@@ -128,6 +141,7 @@ public class Site {
     public static class PageNameNotUniqueException extends Exception {} // Exception for PageName already existing in site
     public static class NoParentPageException extends Exception {} // Exception for if the selected PageNode has no Parent page
     public static class NoChildPageException extends Exception {} // Exception for if the selected PageNode has no Children
+    public static class PageNotFoundException extends Exception {} // Exception for if the page is not found within the structure
 
 /*----------------------------------------------------------------------------------------------------------------------
    Page Node
